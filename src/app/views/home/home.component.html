@@ -1,0 +1,10 @@
+<h1>Enter Standup Code</h1>
+
+<div class="app-home__input-row">
+  <input #codeInput matInput (keyup)="onKeyUp(codeInput.value)"
+    (keyup.enter)="onSubmit()">
+  
+  <button mat-raised-button (click)="onSubmit()">Submit</button>
+</div>
+
+<div *ngIf="showError" class="app-home__error-row">This code is not valid.</div>

@@ -1,0 +1,29 @@
+<mat-toolbar>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ standup?.name }}</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <p (click)="onStartMeeting()">Meeting: {{ meetingTimer$ | async }}</p>
+  <p (click)="toggleSpeakerTimer()">Speaker: {{ currentSpeakerTimer$ | async }}</p>
+  <button mat-icon-button (click)="onSetNextSpeaker()">
+    <mat-icon>play_arrow</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div  class="app-main__tiles-wrapper">
+  <div class="app-main__tiles-center-wrapper">
+    <ng-container *ngIf="standup?.current?.standupStartTime; else startButtonTemplate">
+      <app-user-tile *ngFor="let member of allMembers" [name]="member.name" class="app-main__tiles-margin" [active]="member.id === standup?.current?.speaker?.id" [duration]="getMemberTime(member)"></app-user-tile>
+      <!--  -->
+    </ng-container>
+    <ng-template #startButtonTemplate>
+      <button mat-button (click)="onStartMeeting()">Start the meeting</button>
+    </ng-template>
+  </div>
+</div>
+<button mat-raised-button (click)="onClear()">Clear</button>
+{{standup | json}}

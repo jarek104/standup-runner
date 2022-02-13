@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-main__tiles-center-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.app-main__tiles-wrapper {
+  display: flex;
+  
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.mat-toolbar {
+  justify-content: space-between;
+}
+
+.app-main__tiles-margin {
+  margin: 24px;
+}

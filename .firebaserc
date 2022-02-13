@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "standup-runner": {
+      "hosting": {
+        "standup-runner": [
+          "standup-runner"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "standup-runner"
+  }
+}
