@@ -1,22 +1,29 @@
 <mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button>
     <mat-icon>menu</mat-icon>
   </button>
+
+  <span class="spacer"></span>
   <span>{{ standup?.name }}</span>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <p (click)="onStartMeeting()">Meeting: {{ meetingTimer$ | async }}</p>
-  <p (click)="toggleSpeakerTimer()">Speaker: {{ currentSpeakerTimer$ | async }}</p>
-  <button mat-icon-button (click)="onSetNextSpeaker()">
-    <mat-icon>play_arrow</mat-icon>
+  <span class="spacer"></span>
+
+  <button mat-icon-button>
+    <mat-icon class="material-icons-outlined">insert_comment</mat-icon>
   </button>
 </mat-toolbar>
 
 <div *ngIf="standup?.current?.standupEndTime" class="app-main__complete-message-wrapper">
   <h3 style="text-align: center;">Standup completed</h3>
   <button mat-button>Restart</button>
+</div>
+
+<div class="app-main__complete-message-wrapper">
+  <p *ngIf="standup?.current?.standupEndTime; else currentStandupTimeTemplate">{{standup!.current!.standupEndTime - standup!.current!.standupStartTime | date:'mm:ss'}}</p>
+  <ng-template #currentStandupTimeTemplate>{{ meetingTimer$ | async }}</ng-template>
+  
+  <button mat-icon-button (click)="onSetNextSpeaker()">
+    <mat-icon>play_arrow</mat-icon>
+  </button>
 </div>
 
 <div  class="app-main__tiles-wrapper">
