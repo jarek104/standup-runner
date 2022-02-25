@@ -27,3 +27,9 @@
 .app-main__tiles-margin {
   margin: 24px;
 }
+
+.app-main__complete-message-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

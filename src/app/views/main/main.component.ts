@@ -48,15 +48,12 @@ export class MainComponent {
           }
         })
         this.membersInQueue = [...this.allMembers];
-        this.onSetNextSpeaker();
       })
     );
 
-    console.log('logs path', `standups/123456/logs/${this.getDateDocId()}/times`);
     this._subs.add(
       afs.collection<StandupLog>(`standups/123456/logs/${this.getDateDocId()}/times`).valueChanges().subscribe(logs => {
         this.currentLogs = logs;
-        console.log('logs', logs);
       })
     );
   }
@@ -76,7 +73,8 @@ export class MainComponent {
     this.afs.collection('standups').doc('123456')
       .set({ current: { standupStartTime: Date.now () }}, { merge: true })
       .then(_ => { 
-
+        this.onSetNextSpeaker();
+        this.setDateForLogs()
         this.meetingTimer$ = interval(1000).pipe(
           takeUntil(this.meetingEndTrigger$)
         );
@@ -103,7 +101,6 @@ export class MainComponent {
       }
       this.afs.collection('standups/123456/logs').doc(this.getDateDocId()).collection('times').doc(this.standup?.current.speaker.id).set(log);
     }
-    console.log(!!this.membersInQueue.length)
     // if the queue is empty end the meeting and save total log
     if (!!this.membersInQueue.length) {
       // get the next speaker
@@ -130,12 +127,19 @@ export class MainComponent {
     this.meetingEndTrigger$.next(true);
   }
 
+  setDateForLogs() {
+    this.afs.collection('standups/123456/logs').doc(this.getDateDocId()).set({date: this.getDateDocId()});
+  }
+
   getDateDocId() {
     const date = new Date();
     return `${date.getFullYear().toString().slice(-2)}${("0" + (date.getMonth() + 1)).slice(-2)}${("0" + date.getDate()).slice(-2)}`
   }
 
   getMemberTime(member: StandupMember) {
+    if (member.id === this.standup?.current?.speaker?.id) {
+      return this.currentSpeakerTimer$.value;
+    }
     return this.currentLogs.find(el => el.name === member.name)?.totalTime || undefined;
   }
   

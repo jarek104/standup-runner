@@ -14,11 +14,15 @@
   </button>
 </mat-toolbar>
 
+<div *ngIf="standup?.current?.standupEndTime" class="app-main__complete-message-wrapper">
+  <h3 style="text-align: center;">Standup completed</h3>
+  <button mat-button>Restart</button>
+</div>
+
 <div  class="app-main__tiles-wrapper">
   <div class="app-main__tiles-center-wrapper">
     <ng-container *ngIf="standup?.current?.standupStartTime; else startButtonTemplate">
-      <app-user-tile *ngFor="let member of allMembers" [name]="member.name" class="app-main__tiles-margin" [active]="member.id === standup?.current?.speaker?.id" [duration]="getMemberTime(member)"></app-user-tile>
-      <!--  -->
+      <app-user-tile *ngFor="let member of allMembers" [name]="member.name" class="app-main__tiles-margin" [active]="member.id === standup?.current?.speaker?.id && !standup?.current?.standupEndTime" [duration]="getMemberTime(member)"></app-user-tile>
     </ng-container>
     <ng-template #startButtonTemplate>
       <button mat-button (click)="onStartMeeting()">Start the meeting</button>
